@@ -3,10 +3,6 @@ from fastapi.responses import RedirectResponse
 from graph_helper import create_external_connection, create_schema
 #from azure_blob_helper import get_blob_content, push_content_to_external_connection
 from graph_helper import client_id
-from msgraph import GraphServiceClient
-#from msal import ConfidentialClientApplication
-from azure.identity import ClientSecretCredential
-from msgraph.generated.models.external_connectors.external_connection import ExternalConnection
 
 app = FastAPI()
 
@@ -27,9 +23,10 @@ async def create_connection(request: Request):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/create-schema")
-def create_schema_endpoint(connection_id: str, schema: dict):
+async def create_schema_endpoint(request: Request):
     try:
-        response = create_schema(connection_id, schema)
+        body = await request.json()
+        response = await create_schema(body['connection_id'])
         return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

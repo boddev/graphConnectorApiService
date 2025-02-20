@@ -10,7 +10,7 @@ POST http://localhost:8000/create-connection HTTP/1.1
 Content-Type: application/json
 
 {
-  "connection_id": "bod-connection",
+  "connection_id": "bodConnection",
   "name": "bod-customer-connector",
   "description": "web-deployed-gc"
 }
@@ -18,14 +18,11 @@ Content-Type: application/json
 ###
 # Create Schema
 ###
-POST http://localhost:8000/create-schema
+POST http://localhost:8000/create-schema HTTP/1.1
 Content-Type: application/json
 
 {
-  "connection_id": "YOUR_CONNECTION_ID",
-  "schema": {
-    "YOUR_SCHEMA_KEY": "YOUR_SCHEMA_VALUE"
-  }
+  "connection_id": "bodConnection"
 }
 
 ###
