@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+msal
+azure-storage-blob
+msgraph-core
+msgraph-sdk
