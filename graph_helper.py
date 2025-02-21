@@ -2,10 +2,7 @@ from msgraph import GraphServiceClient
 from azure.identity import ClientSecretCredential
 from fastapi import HTTPException
 from msgraph.generated.models.external_connectors.external_connection import ExternalConnection
-from msgraph.generated.models.external_connectors.schema import Schema
-from msgraph.generated.models.external_connectors.property_ import Property_
-from msgraph.generated.models.external_connectors.property_type import PropertyType
-from msgraph.generated.models.external_connectors.label import Label
+from schemas import demo_schema as schema
 
 # Initialize the Graph client
 client_id = ''
@@ -26,7 +23,7 @@ async def create_external_connection(connection_id, name, description):
         id=connection_id,
         name=name,
         description=description,
-        state='draft'
+        state="ready"
     )
     try:
         response = await graph_client.external.connections.post(body=connection)
@@ -38,49 +35,6 @@ async def create_external_connection(connection_id, name, description):
 
 
 async def create_schema(connection_id):
-    schema = Schema(
-        base_type="microsoft.graph.externalItem",
-        properties=[
-            Property_(
-                name="Name",
-                type=PropertyType.String,
-                is_queryable=True,
-                is_searchable=True,
-                is_retrievable=True,
-                labels=[
-                    Label.Title
-                ]
-            ),
-            Property_(
-                name="Description",
-                type=PropertyType.String,
-                is_queryable=True,
-                is_searchable=True,
-                is_retrievable=True
-            ),
-            Property_(
-                name="FunFact",
-                type=PropertyType.String,
-                is_retrievable=True
-            ),
-            Property_(
-                name="url",
-                type=PropertyType.String,
-                is_retrievable=True,
-                labels=[
-                    Label.Url
-                ]
-            ),
-            Property_(
-                name="Content",
-                type=PropertyType.String,
-                is_retrievable=True,
-                labels=[
-                    
-                ]
-            )
-        ]
-    )
     response = await graph_client.external.connections.by_external_connection_id(connection_id).schema.patch(schema)
     print('Schema created successfully')
     return response

@@ -1,7 +1,8 @@
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import RedirectResponse
+from urllib3 import HTTPResponse
 from graph_helper import create_external_connection, create_schema
-#from azure_blob_helper import get_blob_content, push_content_to_external_connection
+from azure_blob_helper import get_blob_content
 from graph_helper import client_id
 
 app = FastAPI()
@@ -31,11 +32,11 @@ async def create_schema_endpoint(request: Request):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# @app.post("/push-content")
-# def push_content(connection_id: str, container_name: str, blob_name: str):
-#     try:
-#         content = get_blob_content(container_name, blob_name)
-#         response = push_content_to_external_connection(connection_id, content)
-#         return response
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=str(e))
+@app.post("/push-content")
+async def push_content(request: Request):
+    try:
+        body = await request.json()
+        content = await get_blob_content(body['container_name'])
+        return HTTPResponse(status_code=200)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

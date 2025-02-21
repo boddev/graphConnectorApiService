@@ -28,13 +28,12 @@ Content-Type: application/json
 ###
 # Push Content (commented out in main.py)
 ###
-# POST http://localhost:8000/push-content
-# Content-Type: application/json
-#
-# {
-#   "connection_id": "YOUR_CONNECTION_ID",
-#   "container_name": "YOUR_CONTAINER_NAME",
-#   "blob_name": "YOUR_BLOB_NAME"
-# }
+POST http://localhost:8000/push-content
+Content-Type: application/json
+
+{
+  "connection_id": "bodConnection",
+  "container_name": "financedocs"
+}
 
 #curl --location 'https://login.microsoftonline.com/5174ceb7-3102-4916-9c26-eb94f327f56d/oauth2/v2.0/token' \ --header 'Content-Type: application/x-www-form-urlencoded' \ --data-urlencode 'client_id=1153b495-9395-4350-929b-f195e9466370' \ --data-urlencode 'scope=https://graph.microsoft.com/.default' \ --data-urlencode 'client_secret=3no8Q~ugPXPEC1Cfn6FJkYICdb51Z8AWxHkzXcxuT' \ --data-urlencode 'grant_type=client_credentials'
